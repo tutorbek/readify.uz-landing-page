@@ -1,0 +1,1 @@
+# readify.uz-landing-page
