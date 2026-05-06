@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Readify.uz — Farzandingiz o'qishni o'rganadi</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
+<link rel="icon" href="https://api.iconify.design/solar/book-bold.svg?color=%23ff8a3d">
+<style>
+  :root {
+    --orange: #FF6B2B;
+    --blue: #1A3FD8;
+    --yellow: #FFD60A;
+    --green: #22C55E;
+    --bg: #FFF8F3;
+    --text: #1A1A2E;
+    --muted: #6B7280;
+    --card: #FFFFFF;
+    --radius: 20px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
+    position: sticky;
+    top: 0;
+    background: rgba(255,248,243,0.92);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+    border-bottom: 1px solid rgba(255,107,43,0.1);
+  }
+
+  .logo {
+    font-family: 'Baloo 2', cursive;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--orange);
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--blue); }
+
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 700;
+    font-size: 15px;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--orange); }
+
+  .btn-primary {
+    background: var(--orange);
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 4px 0 #c94e18;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #c94e18;
+  }
+  .btn-primary:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #c94e18;
+  }
+
+  /* HERO */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    padding: 80px 60px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #FFF3E8;
+    border: 2px solid #FFD6B8;
+    border-radius: 50px;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--orange);
+    margin-bottom: 20px;
+  }
+  .hero-badge .dot { width: 8px; height: 8px; background: var(--orange); border-radius: 50%; animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+
+  .hero h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 58px;
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--orange);
+    position: relative;
+  }
+  .hero h1 em::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: var(--yellow);
+    border-radius: 3px;
+    z-index: -1;
+  }
+
+  .hero p {
+    font-size: 18px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 36px;
+    font-weight: 600;
+  }
+
+  .hero-actions { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+
+  .btn-secondary {
+    background: transparent;
+    border: 2.5px solid var(--blue);
+    color: var(--blue);
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .btn-secondary:hover { background: var(--blue); color: white; }
+
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+    margin-top: 40px;
+  }
+  .stat { }
+  .stat-num {
+    font-family: 'Baloo 2', cursive;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--orange);
+  }
+  .stat-label { font-size: 13px; color: var(--muted); font-weight: 600; }
+
+  /* HERO VISUAL */
+  .hero-visual {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .phone-mockup {
+    width: 280px;
+    height: 520px;
+    background: linear-gradient(145deg, #1A3FD8, #3B6FFF);
+    border-radius: 40px;
+    position: relative;
+    box-shadow: 0 30px 80px rgba(26,63,216,0.3), 0 0 0 8px white, 0 0 0 10px rgba(26,63,216,0.2);
+    overflow: hidden;
+    animation: float 3s ease-in-out infinite;
+  }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+
+  .phone-screen {
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    height: 100%;
+  }
+
+  .word-card {
+    background: white;
+    border-radius: 16px;
+    padding: 20px 30px;
+    text-align: center;
+    width: 100%;
+  }
+  .syllables {
+    font-family: 'Baloo 2', cursive;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--text);
+    display: flex;
+    gap: 0;
+    justify-content: center;
+  }
+  .syl1 { color: var(--orange); }
+  .syl2 { color: var(--blue); }
+  .divider-dot { color: var(--muted); padding: 0 4px; }
+
+  .progress-bar {
+    background: #EEF2FF;
+    border-radius: 50px;
+    height: 10px;
+    width: 100%;
+    overflow: hidden;
+    margin-top: 8px;
+  }
+  .progress-fill {
+    height: 100%;
+    width: 65%;
+    background: linear-gradient(90deg, var(--orange), #FF9F6B);
+    border-radius: 50px;
+    animation: grow 2s ease-in-out infinite alternate;
+  }
+  @keyframes grow { from{width:40%} to{width:75%} }
+
+  .mini-card {
+    background: rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 12px 16px;
+    color: white;
+    font-weight: 700;
+    font-size: 13px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .check-icon {
+    width: 22px; height: 22px;
+    background: var(--green);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+  }
+
+  .emoji-float {
+    position: absolute;
+    font-size: 36px;
+    animation: floatEmoji 4s ease-in-out infinite;
+  }
+  .e1 { top: 40px; right: -20px; animation-delay: 0s; }
+  .e2 { bottom: 80px; left: -30px; animation-delay: 1s; }
+  .e3 { top: 160px; left: -40px; animation-delay: 2s; }
+  @keyframes floatEmoji {
+    0%,100%{transform:translateY(0) rotate(0deg)}
+    50%{transform:translateY(-10px) rotate(8deg)}
+  }
+
+  /* SECTION SHARED */
+  section { padding: 80px 60px; }
+  .section-tag {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 40px;
+    font-weight: 800;
+    line-height: 1.2;
+    max-width: 550px;
+    margin-bottom: 16px;
+  }
+  .section-sub {
+    color: var(--muted);
+    font-size: 17px;
+    font-weight: 600;
+    max-width: 500px;
+    line-height: 1.6;
+    margin-bottom: 48px;
+  }
+
+  /* HOW IT WORKS */
+  .how-section { background: white; border-radius: 40px; margin: 0 40px; }
+  .how-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  .step-card {
+    background: var(--bg);
+    border-radius: var(--radius);
+    padding: 32px;
+    position: relative;
+    transition: transform 0.3s;
+  }
+  .step-card:hover { transform: translateY(-6px); }
+
+  .step-num {
+    font-family: 'Baloo 2', cursive;
+    font-size: 60px;
+    font-weight: 800;
+    color: rgba(255,107,43,0.12);
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    line-height: 1;
+  }
+
+  .step-icon {
+    width: 56px; height: 56px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    margin-bottom: 20px;
+  }
+  .icon-orange { background: #FFF0E8; }
+  .icon-blue { background: #EEF2FF; }
+  .icon-green { background: #ECFDF5; }
+
+  .step-card h3 {
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+  .step-card p { color: var(--muted); font-size: 15px; line-height: 1.6; font-weight: 600; }
+
+  /* FEATURES */
+  .features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .feature-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 32px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 2px solid transparent;
+  }
+  .feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    border-color: var(--orange);
+  }
+
+  .feature-emoji { font-size: 36px; flex-shrink: 0; }
+  .feature-card h3 { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+  .feature-card p { color: var(--muted); font-size: 14px; line-height: 1.6; font-weight: 600; }
+
+  .features-section { max-width: 1200px; margin: 0 auto; }
+
+  /* TESTIMONIALS */
+  .testimonials-section {
+    background: linear-gradient(135deg, #1A3FD8, #3B6FFF);
+    margin: 0;
+    padding: 80px 60px;
+  }
+  .testimonials-section .section-title,
+  .testimonials-section .section-sub,
+  .testimonials-section .section-tag { color: rgba(255,255,255,0.9); }
+  .testimonials-section .section-sub { color: rgba(255,255,255,0.6); }
+
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .testi-card {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: var(--radius);
+    padding: 28px;
+    transition: transform 0.3s;
+  }
+  .testi-card:hover { transform: translateY(-4px); }
+
+  .stars { color: var(--yellow); font-size: 18px; margin-bottom: 14px; }
+  .testi-text {
+    color: white;
+    font-size: 15px;
+    line-height: 1.7;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  .testi-author { display: flex; align-items: center; gap: 12px; }
+  .avatar {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    background: rgba(255,255,255,0.2);
+  }
+  .author-name { color: white; font-weight: 800; font-size: 14px; }
+  .author-role { color: rgba(255,255,255,0.6); font-size: 12px; font-weight: 600; }
+
+  /* PRICING */
+  .pricing-section { max-width: 900px; margin: 0 auto; padding: 80px 60px; text-align: center; }
+  .pricing-section .section-title,
+  .pricing-section .section-sub { max-width: 100%; }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 0;
+    text-align: left;
+  }
+
+  .price-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 36px;
+    border: 2px solid #E5E7EB;
+    transition: all 0.3s;
+    position: relative;
+  }
+  .price-card.featured {
+    border-color: var(--orange);
+    box-shadow: 0 20px 60px rgba(255,107,43,0.15);
+  }
+  .popular-badge {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--orange);
+    color: white;
+    padding: 4px 20px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .price-name { font-size: 14px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+  .price-amount {
+    font-family: 'Baloo 2', cursive;
+    font-size: 48px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .price-amount sup { font-size: 24px; vertical-align: super; }
+  .price-period { font-size: 13px; color: var(--muted); font-weight: 600; margin-bottom: 24px; }
+
+  .price-features { list-style: none; margin-bottom: 28px; }
+  .price-features li {
+    padding: 8px 0;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #F3F4F6;
+  }
+  .price-features li::before { content: '✓'; color: var(--green); font-weight: 900; font-size: 16px; }
+
+  .btn-full { width: 100%; text-align: center; }
+
+  /* CTA */
+  .cta-section {
+    background: var(--orange);
+    padding: 80px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: '📚 📖 ✏️ 🎯 📚 📖 ✏️ 🎯 📚 📖';
+    position: absolute;
+    top: 20px;
+    left: 0;
+    width: 100%;
+    font-size: 24px;
+    opacity: 0.15;
+    white-space: nowrap;
+    animation: marquee 20s linear infinite;
+  }
+  @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  .cta-section h2 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 48px;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .cta-section p {
+    color: rgba(255,255,255,0.85);
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 36px;
+    position: relative;
+  }
+  .btn-white {
+    background: white;
+    color: var(--orange);
+    padding: 16px 40px;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 17px;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 6px 0 rgba(0,0,0,0.15);
+    transition: all 0.2s;
+    position: relative;
+  }
+  .btn-white:hover { transform: translateY(-3px); box-shadow: 0 9px 0 rgba(0,0,0,0.15); }
+
+  /* FOOTER */
+  footer {
+    background: var(--text);
+    color: rgba(255,255,255,0.6);
+    padding: 40px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  footer .logo { color: white; }
+  footer .logo span { color: var(--yellow); }
+  footer p { font-size: 14px; font-weight: 600; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 40px 20px; gap: 40px; }
+    .hero h1 { font-size: 38px; }
+    .hero-visual { order: -1; }
+    .phone-mockup { width: 220px; height: 400px; }
+    section { padding: 60px 20px; }
+    .how-section { margin: 0 16px; }
+    .how-grid { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 20px; }
+    footer { flex-direction: column; gap: 16px; text-align: center; padding: 32px 20px; }
+    .cta-section { padding: 60px 20px; }
+    .cta-section h2 { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Read<span>ify</span></div>
+  <ul class="nav-links">
+    <li><a href="#how">Qanday ishlaydi</a></li>
+    <li><a href="#features">Xususiyatlar</a></li>
+    <li><a href="#pricing">Narxlar</a></li>
+  </ul>
+  <a href="https://t.me/bkzd19" target="_blank" rel="noopener noreferrer" class="btn-primary">Bog'lanish →</a>
+</nav>
+
+<!-- HERO -->
+<section style="padding: 0;">
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        O'zbekistonda #1 o'qish ilovasi
+      </div>
+      <h1>Farzandingiz <em>o'qishni</em> o'rganadi</h1>
+      <p>Bo'g'inlab o'qishdan boshlab, kitoblarni ravon o'qishgacha — faqat 20 daqiqa kuniga. Ota-ona va bola birgalikda!</p>
+      <div class="hero-actions">
+  <a href="https://t.me/bkzd19" target="_blank" rel="noopener noreferrer" class="btn-primary">Bog'lanish →</a>
+        <a href="#how" class="btn-secondary">Qanday ishlaydi?</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-num">5000+</div>
+          <div class="stat-label">Faol oila</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">4.9 ⭐</div>
+          <div class="stat-label">O'rtacha baho</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">8 hafta</div>
+          <div class="stat-label">O'rtacha natija</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <span class="emoji-float e1">⭐</span>
+      <span class="emoji-float e2">📖</span>
+      <span class="emoji-float e3">🎉</span>
+      <div class="phone-mockup">
+        <div class="phone-screen">
+          <div class="word-card">
+            <div style="font-size:12px;color:#9CA3AF;font-weight:700;margin-bottom:8px;">Shu so'zni o'qi:</div>
+            <div class="syllables">
+              <span class="syl1">Ma</span>
+              <span class="divider-dot">·</span>
+              <span class="syl2">ka</span>
+              <span class="divider-dot">·</span>
+              <span class="syl1">ba</span>
+            </div>
+            <div style="font-family:'Baloo 2',cursive;font-size:28px;font-weight:800;margin-top:8px;color:#1A1A2E;">Maktab</div>
+            <div class="progress-bar" style="margin-top:14px;">
+              <div class="progress-fill"></div>
+            </div>
+            <div style="font-size:11px;color:#9CA3AF;margin-top:6px;font-weight:700;">Dars 7 / 110</div>
+          </div>
+          <div class="mini-card">
+            <span>✅ "Kitob" so'zini o'qidim!</span>
+            <div class="check-icon">🏆</div>
+          </div>
+          <div class="mini-card">
+            <span>🔥 3 kun ketma-ket!</span>
+            <div class="check-icon" style="background:#FF6B2B;">⚡</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.15);border-radius:12px;padding:12px 16px;color:white;font-size:12px;font-weight:700;width:100%;text-align:center;">
+            🎉 Bugun 2 yangi so'z o'rgandik!
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how" style="background: var(--bg); padding: 80px 60px;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-tag">Qanday ishlaydi</div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;flex-wrap:wrap;gap:20px;">
+      <div>
+        <h2 class="section-title">3 ta qadam — shunchaki!</h2>
+        <p class="section-sub" style="margin-bottom:0;">Maxsus bilim shart emas. Readify hamma narsani sizga ko'rsatadi.</p>
+      </div>
+    </div>
+    <div class="how-section" style="padding:48px;">
+      <div class="how-grid">
+        <div class="step-card">
+          <span class="step-num">01</span>
+          <div class="step-icon icon-orange">🎧</div>
+          <h3>Tovushlarni o'rgan</h3>
+          <p>Farzandingiz har bir harfning tovushini tinglab, takrorlaydi. Animatsiyalar yordamida qiziqarli bo'ladi.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-num">02</span>
+          <div class="step-icon icon-blue">🔤</div>
+          <h3>Bo'g'inlab o'qi</h3>
+          <p>So'zlar bo'laklarga bo'linadi. Bola bo'g'in-bo'g'in o'qib, keyin to'liq so'zni aytadi.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-num">03</span>
+          <div class="step-icon icon-green">📚</div>
+          <h3>Kitob o'qi</h3>
+          <p>O'rganilgan so'zlar bilan qisqa hikoyalar o'qiladi. "Men o'qiy olaman!" hissiyoti paydo bo'ladi.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" style="background:var(--bg);padding:80px 60px;">
+  <div class="features-section">
+    <div class="section-tag">Xususiyatlar</div>
+    <h2 class="section-title">Nima uchun ota-onalar Readify ni tanlaydi?</h2>
+    <p class="section-sub">Ilmiy asosda yaratilgan, O'zbek tiliga moslashtirilgan, bolalar uchun qiziqarli.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-emoji">🧪</div>
+        <div>
+          <h3>Ilmiy asosda</h3>
+          <p>Direct Instruction metodi asosida — dunyodagi eng samarali o'qitish uslubi. 50+ yillik tadqiqot natijalari.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-emoji">🇺🇿</div>
+        <div>
+          <h3>O'zbek tilida</h3>
+          <p>To'liq o'zbek tiliga moslashtirilgan. O'zbek alifbosi, so'zlari va madaniyatiga mos hikoyalar.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-emoji">👨‍👩‍👧</div>
+        <div>
+          <h3>Ota-bola birga</h3>
+          <p>Har dars ota-ona bilan birga o'tiladi. Bu bolaning o'qishini 19 barobar tezlashtiradi.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-emoji">⏱️</div>
+        <div>
+          <h3>Faqat 20 daqiqa</h3>
+          <p>Har bir dars 20 daqiqa. Band oilalar uchun mo'ljallangan — tez, samarali, qiziqarli.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-emoji">🎮</div>
+        <div>
+          <h3>O'yinlar va mukofotlar</h3>
+          <p>Bola har darsdan so'ng yulduzlar, nishonlar va animatsiyalar bilan rag'batlantiriladi.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-emoji">📊</div>
+        <div>
+          <h3>Taraqqiyot kuzatish</h3>
+          <p>Ota-ona panelida farzandingizning har haftalik o'sishini kuzatib boring. Grafiklar, hisobotlar.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-tag">Muvaffaqiyat hikoyalari</div>
+    <h2 class="section-title" style="color:white;">Ota-onalar nima deydi?</h2>
+    <p class="section-sub" style="color:rgba(255,255,255,0.6);margin-bottom:48px;">5000+ oilaning real tajribasi</p>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"Qizim 5 yoshda hech narsani o'qiy olmas edi. 2 oyda mustaqil kitob o'qiy boshladi! Readify sehrli, bu aniq."</p>
+        <div class="testi-author">
+          <div class="avatar">👩</div>
+          <div>
+            <div class="author-name">Malika Yusupova</div>
+            <div class="author-role">Toshkent — 5 yoshli qiz onasi</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"O'g'lim dastlab o'qishni yoqtirmas edi. Readify dagi o'yinlar va mukofotlar uni butunlay o'zgartirdi."</p>
+        <div class="testi-author">
+          <div class="avatar">👨</div>
+          <div>
+            <div class="author-name">Jasur Rahimov</div>
+            <div class="author-role">Samarqand — 6 yoshli o'g'il otasi</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"Bolam har kuni darsdan keyin o'zi "Readify qilaylik!" deydi. 3 oyda ertaklarni o'qi boshladi. Tavsiya qilaman!"</p>
+        <div class="testi-author">
+          <div class="avatar">👩</div>
+          <div>
+            <div class="author-name">Nilufar Karimova</div>
+            <div class="author-role">Namangan — 4 yoshli qiz onasi</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" style="background:var(--bg);">
+  <div class="pricing-section">
+    <div class="section-tag" style="text-align:center;">Narxlar</div>
+    <h2 class="section-title" style="margin:0 auto 12px;">Oddiy va shaffof narxlar</h2>
+    <p class="section-sub" style="margin:0 auto 48px;">7 kunlik bepul sinov. Karta ma'lumoti shart emas.</p>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-name">Oylik</div>
+        <div class="price-amount"><sup>$</sup>9</div>
+        <div class="price-period">/ oyiga</div>
+        <ul class="price-features">
+          <li>110 ta scripted dars</li>
+          <li>60 ta interaktiv kitob</li>
+          <li>4 ta o'yin</li>
+          <li>Taraqqiyot kuzatish</li>
+          <li>7 kunlik bepul sinov</li>
+        </ul>
+        <a href="#" class="btn-secondary btn-full" style="display:block;text-align:center;">Boshlash →</a>
+      </div>
+      <div class="price-card featured">
+        <div class="popular-badge">🔥 Eng mashhur</div>
+        <div class="price-name">Yillik</div>
+        <div class="price-amount"><sup>$</sup>59</div>
+        <div class="price-period">/ yiliga · <span style="color:var(--green);font-weight:800;">45% tejash</span></div>
+        <ul class="price-features">
+          <li>110 ta scripted dars</li>
+          <li>60 ta interaktiv kitob</li>
+          <li>4 ta o'yin</li>
+          <li>Taraqqiyot kuzatish</li>
+          <li>7 kunlik bepul sinov</li>
+          <li style="color:var(--orange);">2 ta farzand profili</li>
+          <li style="color:var(--orange);">Offline rejim</li>
+        </ul>
+  <a href="https://t.me/bkzd19" target="_blank" rel="noopener noreferrer" class="btn-primary">Bog'lanish →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Bugun boshlansin!</h2>
+  <p>Farzandingizning birinchi so'zini o'qishini birga kuzating. 🎉</p>
+  <a href="#pricing" class="btn-white">🚀 7 kun bepul sinab ko'r</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">Read<span>ify</span>.uz</div>
+  <p>© 2025 Readify.uz — Barcha huquqlar himoyalangan</p>
+  <p style="font-size:13px;">Toshkent, O'zbekiston 🇺🇿</p>
+</footer>
+
+</body>
+</html>
